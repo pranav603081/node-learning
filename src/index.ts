@@ -1,3 +1,5 @@
+import t, {testConst, printString} from './sample-export.js'
+
 //number
 let age: number = 40;
 console.log(age);
@@ -12,7 +14,7 @@ console.log(tup);
 
 //enum
 enum size {small = 1, medium = 4, large = 6}
-console.log(size.medium);
+console.log('enum ' + size.medium);
 
 //Functions
 function calculateTax(income: number, tax: number = 1.2) {
@@ -82,3 +84,72 @@ if (samples) {
     data.test1 = 'sample';
 }
 console.log(data?.test1)
+
+//casting
+function returnNumOrStr(item: number | string): number | string {
+    return item
+}
+
+let result: number = <number>returnNumOrStr('1');
+console.log(result)
+
+let x: unknown = 'hello';
+console.log((<string>x).length);
+
+//generics
+const makeArr = <T>(elem: T): T[] => {
+    return [elem]
+}
+
+let arr2 = makeArr<number>(2);
+let arr3 = makeArr({arrr: 'test'});
+console.log(arr2)
+console.log(arr3)
+
+const makeArr2 = <T extends {firstName: string, lastName: string}>(obj: T) => {
+    return {
+        ...obj,
+        fullName: `${obj.firstName} ${obj.lastName}`
+    }
+}
+
+let arr4 = makeArr2({firstName: 'suba', lastName: 'hanu', age: 10});
+console.log(arr4)
+
+interface Tab<T> {
+    id: number,
+    name: string,
+    data: T
+}
+let stringTab: Tab<number> = {
+    id: 1,
+    name: 'hanu',
+    data: 3
+}
+console.log(stringTab);
+
+
+//utility types
+interface test3 {
+    id: number,
+    name: string,
+    age: number,
+    mobile?: number
+}
+
+const test4 = (obj1: test3, updateObj: Partial<test3>): test3 => {
+    return {...obj1, ...updateObj}
+}
+
+const test5 = {
+    id: 1,
+    name: 'test',
+    age: 34
+}
+const test6: test3 = test4(test5, {age: 12231312312});
+console.log(test6)
+
+//import and export
+printString();
+console.log(testConst);
+t();
